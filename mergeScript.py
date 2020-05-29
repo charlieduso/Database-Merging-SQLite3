@@ -12,6 +12,7 @@
 import sqlite3
 import time
 import sys
+import re
 from time import gmtime, strftime
 
 ############################ Global Variables ##################################
@@ -20,6 +21,7 @@ from time import gmtime, strftime
 dbCount = 0                    # Variable to count the number of databases
 listDB = []                    # Variable to store the names of the databases
 listTable = []                 # Variable to store table names
+regex = re.compile("id", re.IGNORECASE)  # regular expression to test column name
 
 ############################ Function Definitions ##############################
 ################################################################################
@@ -64,7 +66,7 @@ def getColumnNames( tableName ):
     temp = curs.fetchall()
     columns = []
     for i in range(0, len(temp)):
-        if (("id" in temp[i][1]) | ("ID" in temp[i][1])):
+        if regex.match(temp[i][1]):
             continue
         else:
             columns.append(temp[i][1])
